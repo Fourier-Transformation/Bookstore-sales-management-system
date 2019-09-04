@@ -1,3 +1,3 @@
 print('Hello World')
 
-print("laplace")
+print('laplace')
