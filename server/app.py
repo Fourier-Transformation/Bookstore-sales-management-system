@@ -1,5 +1,8 @@
 from flask import Flask
+import config
+
 app = Flask(__name__)
+app.config.from_object(config)
 
 
 @app.route('/hello')  # which URL can trigger function
@@ -24,4 +27,4 @@ def show_post(post_id: int):
 
 
 if __name__ == '__main__':  # ensure that it can't execute automaticly when importing
-    app.run(debug=True)  # debug model
+    app.run()
