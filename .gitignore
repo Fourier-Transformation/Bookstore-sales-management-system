@@ -1,3 +1,4 @@
 server/venv
 server/config.ini
 .idea
+node_modules
