@@ -1,4 +1,5 @@
 server/venv
 server/config.ini
 .idea
+*/__pycache__
 node_modules
