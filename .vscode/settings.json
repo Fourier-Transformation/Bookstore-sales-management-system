@@ -3,8 +3,8 @@
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true,
     "python.linting.pylintArgs": [
-        "--load-plugins", 
+        "--load-plugins",
         "pylint_quotes"
     ],
-    "python.jediEnabled": true
+    "python.jediEnabled": true,
 }
