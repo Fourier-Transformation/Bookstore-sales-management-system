@@ -11,6 +11,7 @@ Jinja2==2.10.1
 lazy-object-proxy==1.4.2
 MarkupSafe==1.1.1
 mccabe==0.6.1
+mysql-connector==2.2.9
 mysqlclient==1.4.4
 pkg-resources==0.0.0
 pycodestyle==2.5.0
