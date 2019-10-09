@@ -3,6 +3,7 @@ import './App.css';
 
 import TopBar from './components/TopBar';
 import Header from './containers/Header';
+import BookList from './containers/BookList';
 
 class App extends React.Component {
   render() {
@@ -10,6 +11,7 @@ class App extends React.Component {
       <div className="App">
         <TopBar />
         <Header />
+        <BookList />
       </div>
     );
   }
