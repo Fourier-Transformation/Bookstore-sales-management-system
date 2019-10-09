@@ -31,7 +31,7 @@ class BookStoreDatabaseConnector(object):
         # bsdb = bookstore database mysql.connector.MySQLConnection instance
         # check if there is unclosed session
         if self.__bsdb is not None:
-            if isinstance(self.bsdb, mysql.connector.MySQLConnection):
+            if isinstance(self.__bsdb, mysql.connector.MySQLConnection):
                 self.__bsdb.close()
 
         # start new session
@@ -40,7 +40,7 @@ class BookStoreDatabaseConnector(object):
                 host=self.__host,
                 user=self.__username,
                 passwd=self.__passwd,
-                databse=self.__database
+                database=self.__database
             )
         except:
             # something should write into log file
@@ -55,8 +55,8 @@ class BookStoreDatabaseConnector(object):
         mycursor.execute(sql)
 
         result = []
-        for x in mycursor:
-            result.append(x)
+        for item in mycursor:
+            result.append(item)
 
         mycursor.close()
 
