@@ -2,12 +2,11 @@
 bookstore database instance
 """
 
-from utils import config as _config_parser
+import utils.config as _config_parser
 from . import connector as _connector
 
 
 CONFIG_PATH = 'config.ini'
-
 
 class BSDB(object):
     """
@@ -15,17 +14,28 @@ class BSDB(object):
     THIS CLASS SHOULD NOT HAVE MORE THAN ONE INSTANCE
     """
 
+    def __new__(cls, *args, **kwargs):
+        if not hasattr(cls, '_inst'):
+            cls._inst = super(BSDB, cls).__new__(cls, *args, **kwargs)
+        return cls._inst
+
     def __init__(self):
         self._my_connect = _connector.BookStoreDatabaseConnector(
-            *_config_parser.load(CONFIG_PATH, 'database_connection_info'))
-        if self._my_connect == None:
+            *_config_parser.load(CONFIG_PATH, 'DATABASE_CONNECTION'))
+        if self._my_connect is None:
             raise Exception('connect to database failed')
 
     def get_book_all(self) -> list:
         """
-        return all the book list
+        return a list of tuples which represent all the books
+        one tuple one record
         """
-        pass
+        sql_expr = \
+            '''
+            SELECT * FROM Books;
+            '''
+        sql_result = self._my_connect.execute_sql(sql_expr)
+        print(sql_result)
 
     def get_book_isbn(self, isbn: str) -> list:
         """
@@ -38,3 +48,7 @@ class BSDB(object):
         return a list of book selected by name
         """
         pass
+
+if __name__ == '__main__':
+    db = BSDB()
+    print(db.get_book_all())
