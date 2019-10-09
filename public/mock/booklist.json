@@ -1,0 +1,62 @@
+[
+    {
+        "isbn": "0001",
+        "name": "格非：江南三部曲",
+        "author": "格非",
+        "publisher": "北京十月文艺出版社",
+        "price": 149.7,
+        "cover": "images/books/jiang_nan.png",
+        "category": "文学",
+        "amount": 34,
+        "description": "我接受生活的糟糕，但拒绝命运的安排。茅盾文学奖超高票获奖，格非代表作，莫言推崇“值得我们骄傲”！",
+        "publish_date": "2019-08"
+    },
+    {
+        "isbn": "0001",
+        "name": "格非：江南三部曲",
+        "author": "格非",
+        "publisher": "北京十月文艺出版社",
+        "price": 149.7,
+        "cover": "images/books/jiang_nan.png",
+        "category": "文学",
+        "amount": 34,
+        "description": "我接受生活的糟糕，但拒绝命运的安排。茅盾文学奖超高票获奖，格非代表作，莫言推崇“值得我们骄傲”！",
+        "publish_date": "2019-08"
+    },
+    {
+        "isbn": "0001",
+        "name": "格非：江南三部曲",
+        "author": "格非",
+        "publisher": "北京十月文艺出版社",
+        "price": 149.7,
+        "cover": "images/books/jiang_nan.png",
+        "category": "文学",
+        "amount": 34,
+        "description": "我接受生活的糟糕，但拒绝命运的安排。茅盾文学奖超高票获奖，格非代表作，莫言推崇“值得我们骄傲”！",
+        "publish_date": "2019-08"
+    },
+    {
+        "isbn": "0001",
+        "name": "格非：江南三部曲",
+        "author": "格非",
+        "publisher": "北京十月文艺出版社",
+        "price": 149.7,
+        "cover": "images/books/jiang_nan.png",
+        "category": "文学",
+        "amount": 34,
+        "description": "我接受生活的糟糕，但拒绝命运的安排。茅盾文学奖超高票获奖，格非代表作，莫言推崇“值得我们骄傲”！",
+        "publish_date": "2019-08"
+    },
+    {
+        "isbn": "0001",
+        "name": "格非：江南三部曲",
+        "author": "格非",
+        "publisher": "北京十月文艺出版社",
+        "price": 149.7,
+        "cover": "images/books/jiang_nan.png",
+        "category": "文学",
+        "amount": 34,
+        "description": "我接受生活的糟糕，但拒绝命运的安排。茅盾文学奖超高票获奖，格非代表作，莫言推崇“值得我们骄傲”！",
+        "publish_date": "2019-08"
+    }
+]
