@@ -20,7 +20,7 @@ class BookStoreDatabaseConnector(object):
         self.__passwd = passwd
         self.__database = database
 
-        self.bsdb = None
+        self.__bsdb = None
         self.__connect_to_db()
 
     def __connect_to_db(self):
@@ -30,13 +30,13 @@ class BookStoreDatabaseConnector(object):
 
         # bsdb = bookstore database mysql.connector.MySQLConnection instance
         # check if there is unclosed session
-        if self.bsdb is not None:
+        if self.__bsdb is not None:
             if isinstance(self.bsdb, mysql.connector.MySQLConnection):
-                self.bsdb.close()
+                self.__bsdb.close()
 
         # start new session
         try:
-            self.bsdb = mysql.connector.connect(
+            self.__bsdb = mysql.connector.connect(
                 host=self.__host,
                 user=self.__username,
                 passwd=self.__passwd,
@@ -51,4 +51,13 @@ class BookStoreDatabaseConnector(object):
         """
         execute sql and return result
         """
-        pass
+        mycursor = self.__bsdb.cursor()
+        mycursor.execute(sql)
+
+        result = []
+        for x in mycursor:
+            result.append(x)
+
+        mycursor.close()
+
+        return result
