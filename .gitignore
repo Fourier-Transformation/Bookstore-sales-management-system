@@ -4,3 +4,4 @@ server/config.py
 .idea
 **/__pycache__
 node_modules
+*gitignorable*
