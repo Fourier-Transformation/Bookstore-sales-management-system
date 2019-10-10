@@ -2,7 +2,7 @@
 connector module
 using this module in bookstoreDB only, do some SQL connection
 """
-import mysql.connector
+import mysql.connector as _mysql_connector
 
 
 class BookStoreDatabaseConnector(object):
@@ -23,6 +23,13 @@ class BookStoreDatabaseConnector(object):
         self.__bsdb = None
         self.__connect_to_db()
 
+    def __del__(self):
+        """
+        destructor
+        close database connection properly when shutdown the server
+        """
+        self.__bsdb.close()
+
     def __connect_to_db(self):
         """
         private method using host,username,passwd information to connect to mysql server
@@ -31,12 +38,12 @@ class BookStoreDatabaseConnector(object):
         # bsdb = bookstore database mysql.connector.MySQLConnection instance
         # check if there is unclosed session
         if self.__bsdb is not None:
-            if isinstance(self.__bsdb, mysql.connector.MySQLConnection):
+            if isinstance(self.__bsdb, _mysql_connector.MySQLConnection):
                 self.__bsdb.close()
 
         # start new session
         try:
-            self.__bsdb = mysql.connector.connect(
+            self.__bsdb = _mysql_connector.connect(
                 host=self.__host,
                 user=self.__username,
                 passwd=self.__passwd,
