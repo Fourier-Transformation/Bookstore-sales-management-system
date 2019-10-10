@@ -12,3 +12,4 @@ def load(path, section):
     parser.read(path, encoding='utf-8')
 
     return tuple(dict(parser.items(section)).values())
+    
