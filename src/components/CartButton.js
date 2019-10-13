@@ -2,31 +2,22 @@ import React from 'react';
 import styled from 'styled-components';
 
 export default class CartButton extends React.Component {
-    state = {
-        count: 0
-    }
-
-    add() {
-        this.setState({
-            count: this.state.count++
-        })
-    }
-
-    dec() {
-        this.setState({
-            count: this.state.count--
-        })
-    }
-
     render() {
         return (
-            <Button onclick={ () => { Math.random() > 0.5 ? this.add() : this.dec() } }>
-                { this.state.count }
-            </Button>
+            <StyledCartButton>
+                购物车
+            </StyledCartButton>
         );
     }
 }
 
-const Button = styled.button`
-
+const StyledCartButton = styled.div`
+    display: inline-block;
+    width: 72px;
+    height: 37px;
+    margin-top: 18px;
+    background: red;
+    line-height: 37px;
+    color: white;
+    cursor: pointer;
 `;
