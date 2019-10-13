@@ -6,7 +6,7 @@ from .utils import config as _config_parser
 from . import connector as _connector
 
 
-CONFIG_PATH = '../config.ini'
+CONFIG_PATH = 'config.ini'
 
 
 class BookStoreDataBase(object):

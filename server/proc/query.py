@@ -1,11 +1,12 @@
-from database.bsdb import BOOKSTORE_DATABASE as bd
+from database.bsdb import BOOKSTORE_DATABASE as bd  # an object to interate with DB
+from .preproc import books_to_dict  # include preprocessing of data
 
 
 def get_book_list():
     """
     return json format of book list
     """
-    return bd.get_book_all()
+    return books_to_dict(bd.get_book_all())
 
 
 def search_book_by_isbn(isbn: str):

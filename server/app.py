@@ -1,9 +1,7 @@
-from flask import Flask, request
-import config
-import query
+from flask import Flask, redirect, request
+from proc import query
 
 app = Flask(__name__)
-app.config.from_object(config)
 
 
 @app.route('/')  # root
@@ -36,7 +34,12 @@ def show_books():
     """
     show a list of all the books
     """
-    return query.get_book_list()
+    return {'books': query.get_book_list()}
+
+
+# @app.route('/books/<int:page>')
+# def show_books(page: int = 1):
+#     return redirect(url_for('books', page=page))
 
 
 @app.route('/orders/')
@@ -50,4 +53,4 @@ def show_orders():
 
 
 if __name__ == '__main__':  # ensure that it can't execute automaticly when importing
-    app.run()
+    app.run(debug=True)
