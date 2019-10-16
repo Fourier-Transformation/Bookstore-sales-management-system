@@ -16,27 +16,39 @@ class BookStoreDataBase(object):
     support an interface with database without SQL
     THIS CLASS SHOULD NOT HAVE MORE THAN ONE INSTANCE
     """
-
-    """
-    column names of result, does not guarantee these tuples have right orders
-    all this constant is used for reference by this module only
-    every first element from the methods' result give you right orders
-    """
-    RECORDS_NAMES_BOOK = { 
-        0: 'book_id', 
-        1: 'isbn', 
-        2: 'name', 
-        3: 'author', 
-        4: 'publisher', 
+    #column names of result, DOES NOT guarantee these tuples have right orders
+    #all this constant is used for reference by this module only
+    #every first element from the methods' result give you right orders
+    RECORDS_NAMES_BOOK = {
+        0: 'book_id',
+        1: 'isbn',
+        2: 'name',
+        3: 'author',
+        4: 'publisher',
         5: 'price',
-        6: 'cover', 
-        7: 'category', 
-        8: 'amount', 
-        9: 'description', 
-        10: 'publish_date' }
-    RECORDS_NAMES_USER = ('user_id', 'password', 'username', 'role', 'email')
-    RECORDS_NAMES_ORDER = ('order_id', 'book_id', 'user_id', 'isbn', 'count',\
-         'total_price', 'order_date', 'send_data')
+        6: 'cover',
+        7: 'category',
+        8: 'amount',
+        9: 'description',
+        10: 'publish_date'
+        }
+    RECORDS_NAMES_USER = {
+        0: 'user_id',
+        1: 'password',
+        2: 'username',
+        3: 'role',
+        4: 'email'
+        }
+    RECORDS_NAMES_ORDER = {
+        0: 'order_id',
+        1: 'book_id',
+        2: 'user_id',
+        3: 'isbn',
+        4: 'count',
+        5: 'total_price',
+        6: 'order_date',
+        7: 'send_data'
+        }
 
     def __new__(cls, *args, **kwargs):
         if not hasattr(cls, '_inst'):
@@ -96,12 +108,37 @@ class BookStoreDataBase(object):
         return sql_result
 
     def insert_book(self, book_id: int, isbn: str, name: str, author: str, publisher: str,\
-        price: Decimal, amount: int, publish_date: time, **option_info) -> (tuple, list):
+        price: Decimal, amount: int, publish_date: time, **option_info):
         """
         insert a record to database
-        @param option_info's key = { RECORDS_NAMES_BOOK[6 or 7 or 9] }
+        @param option_info's key = { cover, category, description }
         """
-        pass
+        cover = None
+        category = None
+        description = None
+        if 'cover' in option_info:
+            cover = option_info['cover']
+        if 'category' in option_info:
+            category = option_info['category']
+        if 'description' in option_info:
+            description = option_info['description']
+        sql_expr = \
+            '''
+            INSERT INTO Books
+                (book_id,isbn,name,author,publisher,price,amount,publish_date{0}{1}{2})
+                VALUES
+                ({4}{5}{6}{7}{8}{9}{10}{11}{12}{13}{14});
+            '''.format(
+                '' if cover is None else ',cover',
+                '' if category is None else ',category',
+                '' if description is None else ',description',
+                book_id, isbn, name, author, publisher, price, amount, publish_date,
+                '' if cover is None else cover,
+                '' if category is None else category,
+                '' if description is None else description
+            )
+        self._my_connect.execute_sql(sql_expr)
+
 
 
 # the only instance of BSDB
