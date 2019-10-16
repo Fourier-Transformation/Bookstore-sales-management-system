@@ -25,8 +25,8 @@
     },
     {
         "isbn": "9787562493266",
-        "name": " 数学之书",
-        "author": " 克利福德皮寇弗",
+        "name": "数学之书",
+        "author": "克利福德皮寇弗",
         "publisher": "重庆大学出版社",
         "price": 66.00,
         "cover": "images/books/math_book.jpg",
@@ -48,7 +48,7 @@
         "publish_date": "2014-06"
     },
     {
-        "isbn": "9787550277014",
+        "isbn": "9787301254394",
         "name": "疯狂宇宙",
         "author": "唐三歌",
         "publisher": "北京大学出版社",
