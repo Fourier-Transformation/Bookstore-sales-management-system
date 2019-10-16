@@ -2,8 +2,8 @@
 bookstore database instance
 """
 
-from decimal import Decimal
-from time import time
+from decimal import Decimal as _Decimal
+import time as _time
 from .utils import config as _config_parser
 from . import connector as _connector
 
@@ -71,7 +71,7 @@ class BookStoreDataBase(object):
             '''
             SELECT * FROM Books;
             '''
-        sql_result = self._my_connect.execute_sql(sql_expr)
+        sql_result = self._my_connect.execute_sql_read(sql_expr)
         return sql_result
 
     def get_book_isbn(self, isbn: str) -> (tuple, list):
@@ -82,7 +82,7 @@ class BookStoreDataBase(object):
             '''
             SELECT * FROM Books WHERE isbn = '%s'
             ''' % (isbn)
-        sql_result = self._my_connect.execute_sql(sql_expr)
+        sql_result = self._my_connect.execute_sql_read(sql_expr)
         return sql_result
 
     def get_book_name(self, name: str) -> (tuple, list):
@@ -93,7 +93,7 @@ class BookStoreDataBase(object):
             '''
             SELECT * FROM Books WHERE name = '%s'
             ''' % (name)
-        sql_result = self._my_connect.execute_sql(sql_expr)
+        sql_result = self._my_connect.execute_sql_read(sql_expr)
         return sql_result
 
     def get_book_name_part(self, name: str) -> (tuple, list):
@@ -104,40 +104,78 @@ class BookStoreDataBase(object):
             '''
             SELECT * FROM Books WHERE name = '%{0}%'
             '''.format(name)
-        sql_result = self._my_connect.execute_sql(sql_expr)
+        sql_result = self._my_connect.execute_sql_read(sql_expr)
         return sql_result
 
-    def insert_book(self, book_id: int, isbn: str, name: str, author: str, publisher: str,\
-        price: Decimal, amount: int, publish_date: time, **option_info):
+    def insert_book(self, isbn: str, name: str, author: str, publisher: str,\
+        price: _Decimal, amount: int, publish_date: _time.struct_time, **option_info):
         """
         insert a record to database
         @param option_info's key = { cover, category, description }
         """
+        current_num = self._my_connect.execute_sql_read(
+            '''
+            SELECT MAX(book_id) FROM Books;
+            '''
+        )[1][0][0]
+        if current_num is None:
+            current_num = 0
+        else:
+            current_num = int(current_num)
+        book_id = current_num + 1
         cover = None
         category = None
         description = None
-        if 'cover' in option_info:
+
+        vals = [book_id, isbn, name, author, publisher, price, amount, publish_date]
+
+        if 'cover' in option_info and isinstance(option_info['cover'], str):
             cover = option_info['cover']
-        if 'category' in option_info:
+            vals.append(cover)
+        if 'category' in option_info and isinstance(option_info['category'], str):
             category = option_info['category']
-        if 'description' in option_info:
+            vals.append(category)
+        if 'description' in option_info and isinstance(option_info['description'], str):
             description = option_info['description']
+            vals.append(description)
+        # print(vals) #debug
+        
+        # sql_expr = \
+        #     '''
+        #     INSERT INTO Books
+        #         (book_id,isbn,name,author,publisher,price,amount,publish_date{0}{1}{2})
+        #         VALUES
+        #         ({3},'{4}','{5}','{6}','{7}',{8},{9},'{10}'{11}{12}{13});
+        #     '''.format(
+        #         '' if cover is None else ',cover',
+        #         '' if category is None else ',category',
+        #         '' if description is None else ',description',
+        #         str(book_id), isbn, name, author, publisher, str(price.quantize(_Decimal('0.00'))),
+        #         str(amount), _time.strftime('%Y-%m-%d', publish_date),
+        #         '' if cover is None else '\'' + cover + '\'',
+        #         '' if category is None else '\'' + category + '\'',
+        #         '' if description is None else  '\'' + description + '\''
+        #     )
+        
+
         sql_expr = \
             '''
             INSERT INTO Books
                 (book_id,isbn,name,author,publisher,price,amount,publish_date{0}{1}{2})
                 VALUES
-                ({4}{5}{6}{7}{8}{9}{10}{11}{12}{13}{14});
+                (%s,%s,%s,%s,%s,%s,%s,%s{3}{4}{5});
             '''.format(
                 '' if cover is None else ',cover',
                 '' if category is None else ',category',
                 '' if description is None else ',description',
-                book_id, isbn, name, author, publisher, price, amount, publish_date,
-                '' if cover is None else cover,
-                '' if category is None else category,
-                '' if description is None else description
+
+                '' if cover is None else ',%s',
+                '' if category is None else ',%s',
+                '' if description is None else ',%s'
             )
-        self._my_connect.execute_sql(sql_expr)
+
+        # print(sql_expr) #debug
+        self._my_connect.execute_sql_write(sql_expr,vals)
 
 
 
