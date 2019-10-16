@@ -54,17 +54,16 @@ class BookStoreDatabaseConnector(object):
             print('Login mysql server ERROR')
             raise
 
-    def execute_sql(self, sql: str) -> list:
+    def execute_sql(self, sql: str) -> (tuple, list):
         """
         execute sql and return result
         """
         mycursor = self.__bsdb.cursor()
         mycursor.execute(sql)
 
-        result = []
-        for item in mycursor:
-            result.append(item)
+        names = mycursor.column_names
+        records = mycursor.fetchall()
 
         mycursor.close()
 
-        return result
+        return records, names
