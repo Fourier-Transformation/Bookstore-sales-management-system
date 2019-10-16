@@ -64,7 +64,9 @@ class BookStoreDataBase(object):
 
     def get_book_all(self) -> (tuple, list):
         """
-        return a list of tuples which represent all the books
+        return a pair of tuple and list
+        tuple has talbe's column names
+        list of tuples which represent all the books
         one tuple one record
         """
         sql_expr = \
@@ -107,6 +109,19 @@ class BookStoreDataBase(object):
         sql_result = self._my_connect.execute_sql_read(sql_expr)
         return sql_result
 
+    def get_book_random(self) -> (tuple, list):
+        """
+        return a random book
+        """
+        sql_expr = \
+            '''
+            SELECT * FROM Books WHERE book_id >=
+	        (SELECT FLOOR(MAX(book_id) * RAND()) FROM Books)
+            LIMIT 1;
+            '''
+        sql_result = self._my_connect.execute_sql_read(sql_expr)
+        return sql_result
+
     def insert_book(self, isbn: str, name: str, author: str, publisher: str,\
         price: _Decimal, amount: int, publish_date: _time.struct_time, **option_info):
         """
@@ -138,25 +153,6 @@ class BookStoreDataBase(object):
         if 'description' in option_info and isinstance(option_info['description'], str):
             description = option_info['description']
             vals.append(description)
-        # print(vals) #debug
-        
-        # sql_expr = \
-        #     '''
-        #     INSERT INTO Books
-        #         (book_id,isbn,name,author,publisher,price,amount,publish_date{0}{1}{2})
-        #         VALUES
-        #         ({3},'{4}','{5}','{6}','{7}',{8},{9},'{10}'{11}{12}{13});
-        #     '''.format(
-        #         '' if cover is None else ',cover',
-        #         '' if category is None else ',category',
-        #         '' if description is None else ',description',
-        #         str(book_id), isbn, name, author, publisher, str(price.quantize(_Decimal('0.00'))),
-        #         str(amount), _time.strftime('%Y-%m-%d', publish_date),
-        #         '' if cover is None else '\'' + cover + '\'',
-        #         '' if category is None else '\'' + category + '\'',
-        #         '' if description is None else  '\'' + description + '\''
-        #     )
-        
 
         sql_expr = \
             '''
