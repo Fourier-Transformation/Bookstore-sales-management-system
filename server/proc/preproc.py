@@ -2,13 +2,7 @@ import datetime
 import decimal
 
 
-BOOK_HEADER = ('isbn', 'name', 'author', 'publisher', 'price',
-               'cover', 'category', 'amount', 'description', 'publish_date')
-ORDER_HEADER = ()
-USER_HEADER = ()
-
-
-def books_to_dict(records: list):
+def books_to_dict(header: tuple, records: list) -> list:
     """
     transfrom book records into dict
     """
@@ -21,5 +15,5 @@ def books_to_dict(records: list):
             elif isinstance(value, decimal.Decimal):
                 record[index] = float(value.quantize(
                     decimal.Decimal('0.00')))  # decimal trans to str
-        result.append(dict(zip(BOOK_HEADER, record)))
+        result.append(dict(zip(header, record)))
     return result
