@@ -85,7 +85,7 @@ def show_users():
 
 
 if __name__ == '__main__':  # ensure that it can't execute automaticly when importing
-    app.run(debug=True)  # ~~37373外部端口~~
+    app.run(debug=True, port=37373)  # ~~37373外部端口~~
 
 
 @app.route('/api/')
