@@ -54,16 +54,50 @@ class BookStoreDatabaseConnector(object):
             print('Login mysql server ERROR')
             raise
 
-    def execute_sql(self, sql: str) -> (tuple, list):
+    def execute_sql_read(self, sql: str, multi=False) -> (tuple, list):
         """
-        execute sql and return result
+        execute sql to read and return result
         """
         mycursor = self.__bsdb.cursor()
-        mycursor.execute(sql)
+        mycursor.execute(sql, None, multi=multi)
 
         names = mycursor.column_names
-        records = mycursor.fetchall()
+        records = []
+        for x in mycursor:
+            records.append(x)
 
         mycursor.close()
 
-        return records, names
+        return names, records
+
+    def execute_sql_write(self, sql: str, val: tuple):
+        """
+        execute sql to write and not return
+        @param sql SQL expression, using %s to replace the actual values
+        @param val a tuple of actual values of sql
+        """
+        try:
+            mycursor = self.__bsdb.cursor()
+            mycursor.execute(sql, val)
+
+            self.__bsdb.commit()
+
+            mycursor.close()
+        except Exception as e:
+            print('[error] ' + str(e))
+
+    def execute_sql_write_multiple(self, sql: str, vals: list):
+        """
+        execute sql to write multiple records
+        @param sql SQL expression, using %s to replace the actual values
+        @param val a list of tuple of actual values of sql
+        """
+        try:
+            mycursor = self.__bsdb.cursor()
+            mycursor.executemany(sql, vals)
+
+            self.__bsdb.commit()
+
+            mycursor.close()
+        except Exception as e:
+            print('[error] ' + str(e))
