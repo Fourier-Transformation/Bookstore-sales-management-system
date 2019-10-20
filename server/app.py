@@ -1,7 +1,12 @@
-from flask import Flask, redirect, request, url_for, json, jsonify
+from flask import Flask, redirect, request, url_for, jsonify, render_template
 from proc import query
+import sys
 
-app = Flask(__name__)
+app = Flask(
+    __name__,
+    static_url_path='',
+    static_folder='../build',
+)
 
 
 @app.route('/')  # root
@@ -9,7 +14,7 @@ def index():
     """
     return index page
     """
-    return '欢迎光临！'
+    return app.send_static_file('index.html')
 
 
 @app.route('/login/', methods=['get', 'post'])
@@ -80,7 +85,7 @@ def show_users():
 
 
 if __name__ == '__main__':  # ensure that it can't execute automaticly when importing
-    app.run(debug=True, port=37373)  # 37373外部端口
+    app.run(debug=True)  # ~~37373外部端口~~
 
 
 @app.route('/api/')
