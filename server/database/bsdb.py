@@ -82,7 +82,7 @@ class BookStoreDataBase(object):
         """
         sql_expr = \
             '''
-            SELECT * FROM Books WHERE isbn = '%s'
+            SELECT * FROM Books WHERE isbn = '%s';
             ''' % (isbn)
         sql_result = self._my_connect.execute_sql_read(sql_expr)
         return sql_result
@@ -93,7 +93,7 @@ class BookStoreDataBase(object):
         """
         sql_expr = \
             '''
-            SELECT * FROM Books WHERE name = '%s'
+            SELECT * FROM Books WHERE name = '%s';
             ''' % (name)
         sql_result = self._my_connect.execute_sql_read(sql_expr)
         return sql_result
@@ -104,7 +104,7 @@ class BookStoreDataBase(object):
         """
         sql_expr = \
             '''
-            SELECT * FROM Books WHERE name = '%{0}%'
+            SELECT * FROM Books WHERE name = '%{0}%';
             '''.format(name)
         sql_result = self._my_connect.execute_sql_read(sql_expr)
         return sql_result
@@ -119,6 +119,50 @@ class BookStoreDataBase(object):
 	        (SELECT FLOOR(MAX(book_id) * RAND()) FROM Books)
             LIMIT 1;
             '''
+        sql_result = self._my_connect.execute_sql_read(sql_expr)
+        return sql_result
+
+    def get_user_all(self) -> (tuple, list):
+        """
+        get all user
+        """
+        sql_expr = \
+            '''
+            SELECT * FROM Users;
+            '''
+        sql_result = self._my_connect.execute_sql_read(sql_expr)
+        return sql_result
+
+    def get_user_username(self, username: str) -> (tuple, list):
+        """
+        get users information selected by specific username
+        """
+        sql_expr = \
+            '''
+            SELECT * FROM Users WHERE username = '%s';
+            ''' % (username)
+        sql_result = self._my_connect.execute_sql_read(sql_expr)
+        return sql_result
+
+    def get_user_username_part(self, username: str) -> (tuple, list):
+        """
+        get users information selected by part of username
+        """
+        sql_expr = \
+            '''
+            SELECT * FROM Users WHERE username like '%{0}%';
+            '''.format(username)
+        sql_result = self._my_connect.execute_sql_read(sql_expr)
+        return sql_result
+
+    def get_user_email(self, email: str) -> (tuple, list):
+        """
+        get users information selected by specific email
+        """
+        sql_expr = \
+            '''
+            SELECT * FROM Users WHERE email = '%s';
+            ''' % (email)
         sql_result = self._my_connect.execute_sql_read(sql_expr)
         return sql_result
 
@@ -262,6 +306,35 @@ class BookStoreDataBase(object):
             )
 
         self._my_connect.execute_sql_write_multiple(sql_expr, vals)
+
+    def insert_user(self, password: str, username: str, role: str, email: str):
+        """
+        insert a user into database
+        """
+        # arrange user_id
+        current_num = self._my_connect.execute_sql_read(
+            '''
+            SELECT MAX(user_id) FROM Users;
+            '''
+        )[1][0][0]
+        if current_num is None:
+            current_num = 0
+        else:
+            current_num = int(current_num)
+
+        # make up val
+        val = [current_num + 1, password, username, role, email]
+
+        # execute sql
+        sql_expr = \
+            '''
+            INSERT INTO Users
+                (user_id,password,username,role,email)
+                VALUES
+                (%s,%s,%s,%s,%s);
+            '''
+
+        self._my_connect.execute_sql_write(sql_expr, val)
 
 
 # the only instance of BSDB
