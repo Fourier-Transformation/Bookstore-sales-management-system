@@ -9,7 +9,6 @@ def index():
     """
     return index page
     """
-    # return {'tips': '欢迎光临！'}
     return '欢迎光临！'
 
 
@@ -32,8 +31,8 @@ def show_user_profile(username: str):
     return redirect(url)
 
 
-@app.route('/books/')
-def show_books():
+@app.route('/books/', defaults={'page': 1})
+def show_books(page):
     """
     show a list of all the books
     """
@@ -55,7 +54,7 @@ def get_books_by_isbn(isbn):
 @app.route('/books/<int:page>')
 def show_books_by_page(page=1):
     """
-
+    show a part of books devided by page
     """
     return redirect(url_for('show_books', page=page))
 
@@ -81,4 +80,9 @@ def show_users():
 
 
 if __name__ == '__main__':  # ensure that it can't execute automaticly when importing
-    app.run(debug=True)
+    app.run(debug=True, port=37373)  # 37373外部端口
+
+
+@app.route('/api/')
+def get_api():
+    pass
