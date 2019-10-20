@@ -12,12 +12,23 @@ export default class CartButton extends React.Component {
 }
 
 const StyledCartButton = styled.div`
-    display: inline-block;
+    /*display: inline-block;
     width: 72px;
     height: 37px;
     margin-top: 18px;
     background: red;
     line-height: 37px;
     color: white;
-    cursor: pointer;
+    cursor: pointer;*/
+    display: flex;
+    width: 72px;
+    height: 37px;
+    margin-top: 18px;
+    background: red;
+    line-height: 37px;
+    color: white;
+    flex-wrap: wrap;
+    align-content: flex-end;
+    justify-content: space-around;
+    cursor:pointer;
 `;
