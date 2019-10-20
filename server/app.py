@@ -1,30 +1,93 @@
-from flask import Flask
-import config
+from flask import Flask, redirect, request, url_for, jsonify, render_template
+from proc import query
+import sys
 
-app = Flask(__name__)
-app.config.from_object(config)
-
-
-@app.route('/hello')  # which URL can trigger function
-def hello_world():
-    return 'hello,world!'
+app = Flask(
+    __name__,
+    static_url_path='',
+    static_folder='../build',
+)
 
 
 @app.route('/')  # root
 def index():
-    return 'Index Page'
+    """
+    return index page
+    """
+    return app.send_static_file('index.html')
+
+
+@app.route('/login/', methods=['get', 'post'])
+def login():
+    """
+    return login page
+    """
+    return 'login page'
 
 
 @app.route('/user/<username>')  # variable rules: <variable name>
 def show_user_profile(username: str):
-    return 'User %s' % username
+    """
+    return user's profile
+    param username: the ID of users
+    """
+    url = url_for('user', name=username)
+    print(url)
+    return redirect(url)
 
 
-# choose the type of variable: <converter:variable name>
-@app.route('/post/<int:post_id>')
-def show_post(post_id: int):
-    return 'Post %d' % post_id
+@app.route('/books/', defaults={'page': 1})
+def show_books(page):
+    """
+    show a list of all the books
+    """
+    result = {'books': query.get_book_list()}
+    return jsonify(result)
+
+
+@app.route('/books/?<isbn>')
+def show_books_by_isbn(isbn):
+    result = {'books': query.search_book_by_isbn(isbn)}
+    return jsonify(result)
+
+
+@app.route('/books/query/<isbn>')
+def get_books_by_isbn(isbn):
+    return redirect(url_for('show_books_by_isbn', isbn=isbn))
+
+
+@app.route('/books/<int:page>')
+def show_books_by_page(page=1):
+    """
+    show a part of books devided by page
+    """
+    return redirect(url_for('show_books', page=page))
+
+
+@app.route('/orders/')
+def show_orders():
+    """
+    show a list of all the orders
+
+    only Administrator permission
+    """
+    return 'hehe'
+
+
+@app.route('/users/')
+def show_users():
+    """
+    show a list of all the users
+
+    only Administrator permission
+    """
+    return 'hehe'
 
 
 if __name__ == '__main__':  # ensure that it can't execute automaticly when importing
-    app.run()
+    app.run(debug=True, port=37373)  # ~~37373外部端口~~
+
+
+@app.route('/api/')
+def get_api():
+    pass
