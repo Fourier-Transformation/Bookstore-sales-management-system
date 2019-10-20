@@ -22,16 +22,30 @@ export default class BookList extends React.Component {
 
         return bookList.map(({ name, cover }) => {
             return <BookPreview name={ name } cover={ cover } />
-        })
+        }).concat([<i></i>,<i></i>,<i></i>,<i></i>,<i></i>])
     }
 
     render() {
         const { bookList } = this.state;
 
         return (
-            <React.Fragment>
+            <StyledBookList>
                 { bookList ? this.renderList() : null }
-            </React.Fragment>
+            </StyledBookList>
         );
     }
 }
+
+const StyledBookList = styled.div`
+    max-width: 1000px;
+    margin: 20px auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: space-around;
+
+    i {
+        width: 100px;
+        margin: 0 30px;
+    }
+`;
