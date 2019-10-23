@@ -1,12 +1,13 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import TopBar from './components/TopBar';
 import Header from './containers/Header';
 import Categories from './components/Categories'
 import BookList from './containers/BookList';
 import BookDetail from './components/BookDetail';
+import LoginPage from './pages/Login';
 
 class App extends React.Component {
   render() {
@@ -23,6 +24,9 @@ class App extends React.Component {
             <Route exact path='/bookdetail'>
               <TopBar />
               <BookDetail />
+            </Route>
+            <Route>
+              <LoginPage />
             </Route>
           </Switch>
         </div>
