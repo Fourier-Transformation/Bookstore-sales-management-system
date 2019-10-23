@@ -1,14 +1,12 @@
-from flask import Flask, redirect, request, url_for, jsonify
+from flask import Flask, redirect, request, url_for
+import json
 from proc import query
-import sys
 
 app = Flask(
     __name__,
     static_url_path='',
     static_folder='../build',
 )
-app.config['JSON_AS_ASCII'] = False
-app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 
 
 @app.route('/')  # root
@@ -49,7 +47,7 @@ def show_books():
     show a list of all the books
     """
     result = {'books': query.get_book_list()}
-    return jsonify(result)
+    return json.dumps(result, ensure_ascii=False)
 
 
 @app.route('/api/books/isbn/<string:isbn>')
@@ -60,7 +58,7 @@ def get_books_by_isbn(isbn):
 @app.route('/books/isbn/?<string:isbn>')
 def show_books_by_isbn(isbn):
     result = {'books': query.search_book_by_isbn(isbn)}
-    return jsonify(result)
+    return json.dumps(result, ensure_ascii=False)
 
 
 @app.route('/api/books/page/<int:page>')
@@ -74,7 +72,7 @@ def show_books_by_page(page):
     show a part of books devided by page
     """
     result = {'books': query.get_book_list()}
-    return jsonify(result)
+    return json.dumps(result, ensure_ascii=False)
 
 
 @app.route('/api/books/name/<string:name>')
@@ -85,7 +83,7 @@ def get_books_by_name(name):
 @app.route('/books/name/?<string:name>')
 def show_books_by_name(name):
     result = query.search_book_by_keyword(name)
-    return jsonify(result)
+    return json.dumps(result, ensure_ascii=False)
 
 
 @app.route('/orders/')
@@ -108,5 +106,7 @@ def show_users():
     return 'hehe'
 
 
-if __name__ == '__main__':  # ensure that it can't execute automaticly when importing
+if __name__ == '__main__':
+    #app.config['JSON_AS_ASCII'] = False
+    #app.config['json.dumps_PRETTYPRINT_REGULAR'] = True
     app.run(debug=False, port=37373)  # ~~37373外部端口~~
