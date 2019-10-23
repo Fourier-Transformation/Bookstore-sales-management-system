@@ -1,12 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import { STORE_NAME } from '../constants';
+import { Link } from 'react-router-dom';
 
 export default class TopBar extends React.Component {
     render() {
         return (
             <StyledTopBar>
-                <span>欢迎光临{ STORE_NAME }, 请<a className='login'>登录</a> <a className='be-member'>成为会员</a></span>
+                <span>欢迎光临{ STORE_NAME }, 请<Link to='/login' className='login'>登录</Link> <Link className='be-member'>成为会员</Link></span>
             </StyledTopBar>
         );
     }
@@ -21,6 +22,7 @@ const StyledTopBar = styled.div`
         line-height: 34px;
     }
 
+    a { text-decoration: none; }
     a.login {
         color: red;
     }
