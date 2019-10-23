@@ -4,6 +4,7 @@ bookstore database instance
 
 from decimal import Decimal as _Decimal
 import time as _time
+import datetime as _datetime
 from .utils import config as _config_parser
 from . import connector as _connector
 
@@ -167,10 +168,13 @@ class BookStoreDataBase(object):
         return sql_result
 
     def insert_book(self, isbn: str, name: str, author: str, publisher: str,
-                    price: _Decimal, amount: int, publish_date: _time.struct_time, **option_info):
+                    price: _Decimal, amount: int, publish_date: _datetime.datetime, **option_info):
         """
         insert a record to database
         @param option_info's key = { cover, category, description }
+            cover: str
+            category: str
+            description: str
         """
         current_num = self._my_connect.execute_sql_read(
             '''
@@ -229,7 +233,7 @@ class BookStoreDataBase(object):
             publisher: str in list/tuple
             price: Decimal in list/tuple
             amount: int in list/tuple
-            publish_date: time.struct_time in list/tuple
+            publish_date: datetime.datetime in list/tuple
             option_info:
                 'cover': str in list/tuple
                 'category': str in list/tuple
@@ -336,6 +340,84 @@ class BookStoreDataBase(object):
 
         self._my_connect.execute_sql_write(sql_expr, val)
 
+    def insert_order(self, book_id: int, user_id: int, isbn: str, count: int, total_price: int,
+                     order_date: _datetime.date, **option_info):
+        """
+        insert a order record into databse
+        option_info can be:
+            "send_date" : datatime.datetime
+        """
+        # arrange order_id
+        current_num = self._my_connect.execute_sql_read(
+            '''
+            SELECT MAX(order_id) FROM Orders;
+            '''
+        )[1][0][0]
+        if current_num is None:
+            current_num = 0
+        else:
+            current_num = int(current_num)
+
+        # make up val
+        has_send_date = False
+        val = [current_num + 1, book_id, user_id,
+               isbn, count, total_price, order_date]
+        if "send_date" in option_info:
+            val.append(option_info["send_date"])
+            has_send_date = True
+
+        # execute sql
+        sql_expr = \
+            '''
+            INSERT INTO Orders
+                (order_id,book_id,user_id,isbn,count,total_price,order_date{0})
+                VALUES
+                (%s,%s,%s,%s,%s,%s,%s{1});
+            '''.format(
+                '' if not has_send_date else ',send_date',
+                '' if not has_send_date else ',%s'
+            )
+
+        self._my_connect.execute_sql_write(sql_expr, val)
+
+    def delete_user_user_id(self, user_id: int):
+        """
+        delete a user record specified by user_id
+        """
+        sql_expr = \
+            '''
+            DELETE FROM Users WHERE user_id = %s;
+            '''
+
+        val = [user_id]
+
+        self._my_connect.execute_sql_write(sql_expr, val)
+
+    def delete_book_book_id(self, book_id: int):
+        """
+        delete a book record specified by book_id
+        """
+        sql_expr = \
+            '''
+            DELETE FROM Books WHERE book_id = %s;
+            '''
+
+        val = [book_id]
+
+        self._my_connect.execute_sql_write(sql_expr, val)
+
+    def delete_order_order_id(self, order_id: int):
+        """
+        delete a order record specified by order_id
+        """
+        sql_expr = \
+            '''
+            DELETE FROM Orders WHERE order_id = %s;
+            '''
+
+        val = [order_id]
+
+        self._my_connect.execute_sql_write(sql_expr, val)
 
 # the only instance of BSDB
 BOOKSTORE_DATABASE = BookStoreDataBase()
