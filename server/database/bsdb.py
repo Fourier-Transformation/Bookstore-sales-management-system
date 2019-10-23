@@ -377,11 +377,47 @@ class BookStoreDataBase(object):
                 '' if not has_send_date else ',send_date',
                 '' if not has_send_date else ',%s'
             )
-        print(sql_expr)
-        print(val)
 
         self._my_connect.execute_sql_write(sql_expr, val)
 
+    def delete_user_user_id(self, user_id: int):
+        """
+        delete a user record specified by user_id
+        """
+        sql_expr = \
+            '''
+            DELETE FROM Users WHERE user_id = %s;
+            '''
+
+        val = [user_id]
+
+        self._my_connect.execute_sql_write(sql_expr, val)
+
+    def delete_book_book_id(self, book_id: int):
+        """
+        delete a book record specified by book_id
+        """
+        sql_expr = \
+            '''
+            DELETE FROM Books WHERE book_id = %s;
+            '''
+
+        val = [book_id]
+
+        self._my_connect.execute_sql_write(sql_expr, val)
+
+    def delete_order_order_id(self, order_id: int):
+        """
+        delete a order record specified by order_id
+        """
+        sql_expr = \
+            '''
+            DELETE FROM Orders WHERE order_id = %s;
+            '''
+
+        val = [order_id]
+
+        self._my_connect.execute_sql_write(sql_expr, val)
 
 # the only instance of BSDB
 BOOKSTORE_DATABASE = BookStoreDataBase()
