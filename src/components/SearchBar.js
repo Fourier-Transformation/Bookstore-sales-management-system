@@ -24,7 +24,9 @@ const StyledSearchBarContainer = styled.div`
 
 const StyledSearchBar = styled.input`
     ${ baseStyles }
+    height:35px;
     width: 398px;
+    bottom:15px;
     outline: none;
     border: 2px solid red;
 `
@@ -36,8 +38,10 @@ const StyledSearchButton = styled.div`
     display: inline-block;
     position: absolute;
     right: 0px;
-    top: 2px;
+    top: 0px;
+    bottom:15px ;
     width: 50px;
+    height:35px;
     padding-right: 10px;
     cursor: pointer;
 `;
