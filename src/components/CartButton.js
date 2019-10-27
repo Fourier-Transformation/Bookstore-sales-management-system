@@ -1,25 +1,18 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export default class CartButton extends React.Component {
     render() {
         return (
-            <StyledCartButton>
-                购物车
-            </StyledCartButton>
+            <Link to='/payment'>
+                <StyledCartButton>购物车</StyledCartButton>
+            </Link>
         );
     }
 }
 
 const StyledCartButton = styled.div`
-    /*display: inline-block;
-    width: 72px;
-    height: 37px;
-    margin-top: 18px;
-    background: red;
-    line-height: 37px;
-    color: white;
-    cursor: pointer;*/
     display: flex;
     width: 72px;
     height: 37px;

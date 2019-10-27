@@ -2,12 +2,12 @@ import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
+import CommonHeader from './containers/CommonHeader';
 import TopBar from './components/TopBar';
-import Header from './containers/Header';
-import Categories from './components/Categories'
 import BookList from './containers/BookList';
 import BookDetail from './components/BookDetail';
 import LoginPage from './pages/Login';
+import Payment from './containers/Payment';
 
 class App extends React.Component {
   render() {
@@ -16,14 +16,16 @@ class App extends React.Component {
         <div className="App">
           <Switch>
             <Route exact path='/'>
-              <TopBar />
-              <Header />
-              <Categories />
+              <CommonHeader />
               <BookList />
             </Route>
             <Route exact path='/bookdetail'>
               <TopBar />
               <BookDetail />
+            </Route>
+            <Route exact path='/payment'>
+              <CommonHeader />
+              <Payment />
             </Route>
             <Route>
               <LoginPage />
