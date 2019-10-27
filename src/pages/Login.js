@@ -1,5 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import { STORE_NAME } from '../constants';
+import './Login.css';
 
 class NormalLoginForm extends React.Component {
   handleSubmit = e => {
@@ -15,6 +18,8 @@ class NormalLoginForm extends React.Component {
     const { getFieldDecorator } = this.props.form;
     return (
       <Form onSubmit={this.handleSubmit} className="login-form">
+        <h1 className='login-title'>欢迎登录{ `${ STORE_NAME }` }网上书店！</h1>
+        <br />
         <Form.Item>
           {getFieldDecorator('username', {
             rules: [{ required: true, message: 'Please input your username!' }],
@@ -40,14 +45,18 @@ class NormalLoginForm extends React.Component {
           {getFieldDecorator('remember', {
             valuePropName: 'checked',
             initialValue: true,
-          })(<Checkbox>Remember me</Checkbox>)}
-          <a className="login-form-forgot" href="">
-            Forgot password
-          </a>
+          })(<Checkbox>记住密码</Checkbox>)}
+          <Link className='login-form-forgot' to='/forgotPassword'>
+            忘记密码
+          </Link>
+        <div className='button-groups'>
           <Button type="primary" htmlType="submit" className="login-form-button">
-            Log in
+            登录
           </Button>
-          Or <a href="">register now!</a>
+          <Button type="primary" htmlType="submit" className="login-form-button">
+            注册
+          </Button>
+        </div>
         </Form.Item>
       </Form>
     );
