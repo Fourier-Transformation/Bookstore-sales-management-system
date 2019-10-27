@@ -3,14 +3,11 @@ import styled from 'styled-components';
 import { PUBLIC_URL } from '../constants';
 import { Link } from 'react-router-dom';
 import { Card } from 'antd';
+import { sliceString } from '../utils/sliceString';
 
 const { Meta } = Card;
 
 export default class BookPreview extends React.Component {
-    trimDescription(str) {
-        return str.length > 50 ? `${ str.slice(0, 50) }...` : str;
-    }
-
     render() {
         const { name, cover, description } = this.props;
 
@@ -22,7 +19,7 @@ export default class BookPreview extends React.Component {
                     cover={<img alt={ name } src={ cover } />}
                     className='preview-card'
                 >
-                    <Meta title={ name } description={ this.trimDescription(description) } />
+                    <Meta title={ name } description={ sliceString(description) } />
                 </Card>
             </StyledBookPreview>
         );
