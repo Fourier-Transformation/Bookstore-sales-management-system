@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import BookPreview from '../components/BookPreview';
-import { BOOKS_COUNT_PER_PAGE, PUBLIC_URL } from '../constants';
+import { PUBLIC_URL } from '../constants';
 
 export default class BookList extends React.Component {
     state = {
@@ -20,8 +20,8 @@ export default class BookList extends React.Component {
     renderList() {
         const { bookList } = this.state;
 
-        return bookList.map(({ name, cover }) => {
-            return <BookPreview name={ name } cover={ cover } />
+        return bookList.map(({ name, cover, description }) => {
+            return <BookPreview name={ name } cover={ cover } description={ description } />
         }).concat([<i></i>,<i></i>,<i></i>,<i></i>,<i></i>])
     }
 
@@ -47,5 +47,11 @@ const StyledBookList = styled.div`
     i {
         width: 100px;
         margin: 0 30px;
+    }
+
+    .ant-card-cover {
+        padding-top: 20px;
+        display: flex;
+        justify-content: center;
     }
 `;
