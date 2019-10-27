@@ -14,6 +14,7 @@ export default class Categories extends React.Component {
 const StyledCategories = styled.div`
     height: 34px;
     background: #f9f9f9;
+    margin-top: 15px;
     margin-left:330px;
     margin-right:330px;
     padding: 0px,15px;

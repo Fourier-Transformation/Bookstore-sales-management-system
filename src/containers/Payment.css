@@ -1,0 +1,33 @@
+.order-list, .order-list-header {
+    max-width: 1000px;
+    margin: 15px auto;
+}
+
+.ant-input-number-input {
+    text-align: center;
+}
+
+.ant-list-item-meta-description {
+    width: 150px;
+}
+
+.ant-list-item-meta {
+    flex: inherit;
+}
+
+.order-list li:first-child {
+    width: 500px;
+}
+
+.markdown.h1 {
+    max-width: 1000px;
+    margin: 20px auto 0;
+    display: flex;
+    margin-top: 8px;
+    margin-bottom: 20px;
+    color: rgba(0, 0, 0, 0.45);
+    font-weight: 400;
+    font-size: 24px;
+    font-family: Avenir,-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans GB','Microsoft YaHei','Helvetica Neue',Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol',sans-serif;
+    line-height: 38px
+}
