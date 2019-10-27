@@ -20,7 +20,7 @@ export default class Cart extends React.Component {
         const data = await res.json();
         const list = [];
 
-        // This code not works.
+        // 随机取5本书
         for (let i = 0; i < 5; i++) {
             const index = randomNonNegativeNumber(20);
             if (!list.includes(index)) {
@@ -33,6 +33,7 @@ export default class Cart extends React.Component {
             list: list,
         });
 
+        // 计算总价
         let totalPrice = 0;
         const singlePrices = document.querySelectorAll('.single-book-price');
         singlePrices.forEach(ele => {

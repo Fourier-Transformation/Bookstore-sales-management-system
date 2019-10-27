@@ -95,7 +95,7 @@ export default class Admin extends React.Component {
                         </Sider>
                         <Content style={{ padding: '0 24px', minHeight: 280 }}>
                             <Input className='search-input' placeholder='根据关键词查询会员信息，回车以搜索' />
-                            <Button style={{ position: 'absolute', right: 450 }}>搜索</Button>
+                            <Button style={{ position: 'absolute', top: 88, right: 80 }}>搜索</Button>
                             <List style={{ marginTop: 30 }}
                                 className='user-list'
                                 loading={initLoading}
