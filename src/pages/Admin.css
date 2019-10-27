@@ -1,0 +1,16 @@
+.ant-layout-content {
+    margin: 0;
+    padding: 0!important;
+}
+
+.search-input {
+    width: 400px!important;
+    margin: 0 300px;
+}
+.ant-layout-footer {
+    padding: 0px;
+}
+
+.ant-layout-footer {
+    background: white;
+}

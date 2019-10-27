@@ -8,6 +8,7 @@ import BookList from './containers/BookList';
 import BookDetail from './components/BookDetail';
 import LoginPage from './pages/Login';
 import Payment from './containers/Payment';
+import Admin from './pages/Admin';
 
 class App extends React.Component {
   render() {
@@ -27,8 +28,11 @@ class App extends React.Component {
               <CommonHeader />
               <Payment />
             </Route>
-            <Route>
+            <Route exact path='/login'>
               <LoginPage />
+            </Route>
+            <Route exact path='/admin'>
+              <Admin />
             </Route>
           </Switch>
         </div>
