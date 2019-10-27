@@ -8,7 +8,7 @@ export default class Header extends React.Component {
     render() {
         return (
             <StyledHeader>
-                <img src={ `${ PUBLIC_URL }/images/logo.gif` }></img>
+                <img src={ `${ PUBLIC_URL }/images/logo.png` } className='img'></img>
                 <SearchBar />
                 <CartButton />
             </StyledHeader>
@@ -21,4 +21,7 @@ const StyledHeader = styled.div`
     display: flex;
     justify-content: space-around;
     align-items: center;
+    .img{
+        width:230px;
+    }
 `;
